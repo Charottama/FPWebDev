@@ -2,7 +2,10 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Chef;
+use App\Models\Recipe;
+use App\Models\Transaction;
+use App\User;
+
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -10,10 +13,11 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-
-class AdminChefController extends Controller
+class AdminTransactionController extends Controller
 {
-    use ModelForm; /**
+    use ModelForm;
+
+    /**
      * Index interface.
      *
      * @return Content
@@ -69,10 +73,11 @@ class AdminChefController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Chef::class, function (Grid $grid) {
+        return Admin::grid(transaction::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->columns('chef_name');
+            $grid->columns('user_id', 'recipe_id', 'address', 'phone', 'total_price', 'quantity', 'payment', '
+    	time');
 
             // $grid->created_at();
             // $grid->updated_at();
@@ -86,17 +91,25 @@ class AdminChefController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Chef::class, function (Form $form) {
+        return Admin::form(transaction::class, function (Form $form) {
+
 
             $form->display('id', 'ID');
-            $form->text('chef_name');
-            $form->text('username');
-            $form->text('password');
 
+            $form->select('user_id')->options(user::all()->pluck('name','id'));            
+            $form->select('recipe_id')->options(recipe::all()->pluck('food_name','id'));
 
-            // $form->display('created_at', 'Created At');
+            // $form->display('recipe_id');
+            // $form->display('user_id');            
+            $form->text('address');
+            $form->text('phone');
+            $form->number('total_price');
+            $form->number('quantity');
+            $form->text('payment');
+			$form->display('created_at', 'Created At');
             // $form->display('updated_at', 'Updated At');
+            // $form->disableSubmit();
         });
-   
-	}
+    }
 }
+

@@ -2,7 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Chef;
+use App\User;
+
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -10,10 +11,11 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-
-class AdminChefController extends Controller
+class AdminUserController extends Controller
 {
-    use ModelForm; /**
+    use ModelForm;
+
+    /**
      * Index interface.
      *
      * @return Content
@@ -69,10 +71,10 @@ class AdminChefController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Chef::class, function (Grid $grid) {
+        return Admin::grid(User::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->columns('chef_name');
+            $grid->columns('name', 'email', 'password');
 
             // $grid->created_at();
             // $grid->updated_at();
@@ -86,17 +88,17 @@ class AdminChefController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Chef::class, function (Form $form) {
+        return Admin::form(User::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->text('chef_name');
-            $form->text('username');
+            
+            $form->text('name');
+            $form->text('email');
             $form->text('password');
 
 
             // $form->display('created_at', 'Created At');
             // $form->display('updated_at', 'Updated At');
         });
-   
-	}
+    }
 }

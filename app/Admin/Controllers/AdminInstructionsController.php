@@ -2,7 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Chef;
+use App\Models\Recipe;
+use App\Models\instructions;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -11,7 +12,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class AdminChefController extends Controller
+class AdminInstructionsController extends Controller
 {
     use ModelForm; /**
      * Index interface.
@@ -69,10 +70,10 @@ class AdminChefController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Chef::class, function (Grid $grid) {
+        return Admin::grid(instructions::class, function (Grid $grid) {
 
-            $grid->id('ID')->sortable();
-            $grid->columns('chef_name');
+            // $grid->id('ID')->sortable();
+            $grid->columns('recipeId','instruction');
 
             // $grid->created_at();
             // $grid->updated_at();
@@ -86,17 +87,16 @@ class AdminChefController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Chef::class, function (Form $form) {
+        return Admin::form(instructions::class, function (Form $form) {
 
-            $form->display('id', 'ID');
-            $form->text('chef_name');
-            $form->text('username');
-            $form->text('password');
+            // $form->display('id', 'ID');
+            $form->select('recipeId')->options(recipe::all()->pluck('food_name','id'));
+            $form->text('instruction');
 
 
             // $form->display('created_at', 'Created At');
             // $form->display('updated_at', 'Updated At');
         });
    
-	}
+}
 }

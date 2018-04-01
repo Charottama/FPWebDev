@@ -11,7 +11,13 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
-    $router->resource('/chef',AdminChefController::class);
-    $router->resource('/recipe',AdminControllerRecipe::class);
+    // $router->resource('demo/users', UserController::class);
+    $router->resource('/chef', AdminChefController::class);    
+    $router->resource('/recipe',AdminRecipeController::class);
+    $router->resource('/ingredients', AdminIngredientsController::class);
+    $router->resource('/instructions', AdminInstructionsController::class);
+    $router->resource('/user', AdminUserController::class);
+    $router->resource('/transaction', AdminTransactionController::class);
+
 
 });

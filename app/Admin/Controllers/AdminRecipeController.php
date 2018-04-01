@@ -2,7 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\models\Recipe;
+use App\Models\Recipe;
+use App\Models\Chef;
+
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -11,7 +13,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class AdminControllerRecipe extends Controller
+class AdminRecipeController extends Controller
 {
     use ModelForm;
 
@@ -74,10 +76,10 @@ class AdminControllerRecipe extends Controller
         return Admin::grid(Recipe::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->columns('chefId','foodName','price','prepTime','servings','nutritions');
+            $grid->columns('chef_id', 'food_name', 'price', 'prep_time', 'servings', 'nutritions', 'image');
 
-            $grid->created_at();
-            $grid->updated_at();
+            // $grid->created_at();
+            // $grid->updated_at();
         });
     }
 
@@ -91,15 +93,21 @@ class AdminControllerRecipe extends Controller
         return Admin::form(Recipe::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->select('chefId')->option(Chef::all()->pluck('chefName','id'));
-            $form->text('foodName');
-            $form->number('price');
-            $form->number('prepTime');
-            $form->number('servings');
-            $form->text('nutritions');
+            $form->select('chef_id')->options(Chef::all()->pluck('chef_name','id'));
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            // Call to undefined method Encore\Admin\Form\Field\Select::option()
+            // 'name', 'price', 'prepTime', 'servings', 'nutrition', 'imgURL', 'description',
+            $form->text('food_name');
+            $form->number('price');
+            $form->number('prep_time');
+            $form->number('servings');
+            $form->number('nutritions');
+            $form->text('image');
+
+
+            // $form->display('created_at', 'Created At');
+            // $form->display('updated_at', 'Updated At');
         });
-    }
+   
+}
 }
